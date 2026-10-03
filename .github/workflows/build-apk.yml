@@ -1,150 +1,52 @@
 name: Build APK
 
 on:
-  workflow_dispatch:
-    inputs:
-      app_name:
-        description: "Nama aplikasi"
-        required: true
-        default: "Aplikasi Saya"
-
-      package_name:
-        description: "Nama package, contoh com.riki.aplikasi"
-        required: true
-        default: "com.riki.aplikasi"
-
-      version_name:
-        description: "Versi aplikasi"
-        required: true
-        default: "1.0"
-
-      version_code:
-        description: "Kode versi, angka positif"
-        required: true
-        default: "1"
-
-      source_type:
-        description: "Sumber aplikasi"
-        required: true
-        type: choice
-        options:
-          - zip
-          - html
-          - url
-        default: zip
-
-      source_path:
-        description: "Path file di repository"
-        required: false
-        default: "input/source.zip"
-
-      source_url:
-        description: "URL website jika menggunakan URL"
-        required: false
-        default: ""
-
-permissions:
-  contents: read
+  workflow_dispatch: {}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Java 17
+      - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: '17'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
       - name: Install Android SDK packages
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platform-tools"
+          sdkmanager "platforms;android-35"
+          sdkmanager "build-tools;35.0.0"
 
-          sdkmanager \
-            "platform-tools" \
-            "platforms;android-35" \
-            "build-tools;35.0.0"
-
-      - name: Install Gradle 8.9
+      - name: Accept Android licenses
         run: |
-          curl -fsSL \
-            -o /tmp/gradle.zip \
-            https://services.gradle.org/distributions/gradle-8.9-bin.zip
+          yes | sdkmanager --licenses || true
 
-          sudo unzip -q /tmp/gradle.zip -d /opt
-
-          echo "/opt/gradle-8.9/bin" >> "$GITHUB_PATH"
-
-      - name: Verify Gradle
-        run: |
-          gradle --version
+      - name: Install Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
 
       - name: Prepare Android project
-        env:
-          APP_NAME: ${{ inputs.app_name }}
-          PACKAGE_NAME: ${{ inputs.package_name }}
-          VERSION_NAME: ${{ inputs.version_name }}
-          VERSION_CODE: ${{ inputs.version_code }}
-          SOURCE_TYPE: ${{ inputs.source_type }}
-          SOURCE_PATH: ${{ inputs.source_path }}
-          SOURCE_URL: ${{ inputs.source_url }}
         run: |
           python3 scripts/prepare_cloud.py
 
-      - name: Check prepared project
-        run: |
-          echo "Checking generated project..."
-
-          test -f build-project/settings.gradle
-          test -f build-project/build.gradle
-          test -f build-project/app/build.gradle
-          test -f build-project/app/src/main/AndroidManifest.xml
-          test -f build-project/app/src/main/java/com/builder/generated/MainActivity.java
-
-          echo "Project OK"
-
       - name: Build APK
-        working-directory: build-project
+        working-directory: android-template
         run: |
-          gradle :app:assembleDebug \
-            --no-daemon \
-            --stacktrace
-
-      - name: Check APK
-        run: |
-          echo "APK hasil build:"
-
-          find build-project/app/build/outputs \
-            -type f \
-            -name "*.apk" \
-            -print
-
-      - name: Rename APK
-        env:
-          APP_NAME: ${{ inputs.app_name }}
-        run: |
-          mkdir -p output
-
-          SAFE_NAME=$(printf '%s' "$APP_NAME" \
-            | sed 's/[^A-Za-z0-9_-]/_/g')
-
-          cp \
-            build-project/app/build/outputs/apk/debug/app-debug.apk \
-            "output/${SAFE_NAME}.apk"
+          gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: apk-${{ github.run_number }}
-          path: output/*.apk
+          name: HTML-to-APK
+          path: android-template/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-          retention-days: 7
