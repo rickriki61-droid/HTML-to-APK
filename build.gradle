@@ -1,0 +1,14 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.builder.generated'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId '__PACKAGE_NAME__'
+        minSdk 24
+        targetSdk 35
+        versionCode __VERSION_CODE__
+        versionName '__VERSION_NAME__'
+    }
+}
