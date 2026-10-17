@@ -1,0 +1,3771 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>ROOM WANGI</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  background:#f4f7fb;
+  color:#172033;
+  font-family:Arial,sans-serif;
+  transition:.35s;
+}
+
+/* =========================
+   VIP THEME
+========================= */
+
+body.vipMode{
+  background:
+    radial-gradient(circle at top,#3a2a00,#090909 55%);
+  color:#fff;
+}
+
+body.vipMode .header,
+body.vipMode .card{
+  background:linear-gradient(145deg,#171717,#242424);
+  color:#fff;
+  border:1px solid rgba(255,215,70,.25);
+  box-shadow:0 5px 25px rgba(255,190,0,.12);
+}
+
+body.vipMode .header p,
+body.vipMode .vipPageDesc,
+body.vipMode .aboutLabel,
+body.vipMode .timerLabel,
+body.vipMode .adminBadge{
+  color:#c8c8c8;
+}
+
+body.vipMode .feature{
+  border-color:#333;
+}
+
+body.vipMode input{
+  background:#111;
+  color:#fff;
+  border-color:#444;
+}
+
+body.vipMode input::placeholder{
+  color:#888;
+}
+
+body.vipMode .vipCard{
+  background:linear-gradient(135deg,#ffd84d,#9b6900);
+  color:#111;
+}
+
+body.vipMode .toggle.active{
+  background:#ffd21f;
+}
+
+body.vipMode .vipActiveCard{
+  background:linear-gradient(145deg,#2c2100,#151515);
+  border:1px solid #ffd21f;
+}
+
+body.vipMode .adminAccount{
+  background:#171717;
+  color:#fff;
+  border:1px solid #333;
+}
+
+
+/* =========================
+   SPLASH
+========================= */
+
+#splash{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:9999;
+}
+
+.logo{
+  width:85px;
+  height:85px;
+  object-fit:contain;
+  margin-bottom:15px;
+  border-radius:18px;
+  animation:logoEnter 1s ease-out;
+}
+
+@keyframes logoEnter{
+  0%{
+    opacity:0;
+    transform:translateY(-18px) scale(.75) rotate(-5deg);
+  }
+
+  60%{
+    opacity:1;
+    transform:translateY(3px) scale(1.05) rotate(2deg);
+  }
+
+  100%{
+    opacity:1;
+    transform:translateY(0) scale(1) rotate(0);
+  }
+}
+
+.splashTitle{
+  font-size:24px;
+  font-weight:800;
+  margin-bottom:15px;
+}
+
+.loadingBox{
+  width:230px;
+  height:25px;
+  border:2px solid #111;
+  transform:skewX(-12deg);
+  overflow:hidden;
+  background:#fff;
+}
+
+#progress{
+  height:100%;
+  width:0%;
+  background:#111;
+}
+
+#loadingText{
+  margin-top:12px;
+  font-size:13px;
+  color:#555;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+  width:92%;
+  max-width:350px;
+  margin:20px auto;
+  opacity:0;
+  transform:translateY(25px) scale(.96);
+}
+
+.container.show{
+  animation:mainEnter .7s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes mainEnter{
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.header,
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:10px;
+  box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.header h1{
+  margin:0;
+  font-size:25px;
+}
+
+.header p{
+  margin:5px 0 0;
+  color:#777;
+  font-size:14px;
+}
+
+.title{
+  font-size:15px;
+  font-weight:800;
+  margin-bottom:14px;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+input{
+  width:100%;
+  height:46px;
+  border:1px solid #d9dee7;
+  border-radius:10px;
+  padding:0 12px;
+  outline:none;
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+input:focus{
+  border-color:#2196f3;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn{
+  width:100%;
+  border:0;
+  border-radius:10px;
+  padding:13px;
+  background:#2196f3;
+  color:#fff;
+  font-weight:800;
+  font-size:14px;
+}
+
+.btn:active{
+  transform:scale(.98);
+}
+
+.btn:disabled{
+  opacity:.65;
+}
+
+.backBtn{
+  background:#edf1f5;
+  color:#222;
+}
+
+.vipBtn{
+  background:#171717;
+  color:#ffd95c;
+}
+
+
+/* =========================
+   VIP CARD
+========================= */
+
+.vipCard{
+  background:linear-gradient(135deg,#fff4bd,#ffd95c);
+  color:#171717;
+}
+
+.vipCard h2{
+  margin:0 0 5px;
+  font-size:20px;
+}
+
+.vipCard p{
+  margin:0 0 12px;
+  font-size:13px;
+}
+
+
+/* =========================
+   FEATURES
+========================= */
+
+.feature{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+
+.feature:last-child{
+  border-bottom:0;
+}
+
+.featureName{
+  font-size:14px;
+  font-weight:700;
+}
+
+.toggle{
+  width:48px;
+  height:27px;
+  border-radius:20px;
+  background:#cbd1d9;
+  position:relative;
+  transition:.2s;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.toggle:after{
+  content:"";
+  position:absolute;
+  width:21px;
+  height:21px;
+  top:3px;
+  left:3px;
+  border-radius:50%;
+  background:#fff;
+  transition:.2s;
+}
+
+.toggle.active{
+  background:#2196f3;
+}
+
+.toggle.active:after{
+  left:24px;
+}
+
+.toggle.locked{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+body.vipMode .toggle.locked{
+  opacity:1;
+  cursor:pointer;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.aboutRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 0;
+  font-size:14px;
+  gap:10px;
+}
+
+.aboutLabel{
+  color:#777;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#e53935;
+}
+
+.dot.green{
+  background:#20b85a;
+}
+
+
+/* =========================
+   VIP ACTIVE
+========================= */
+
+.vipActiveCard{
+  display:none;
+  text-align:center;
+}
+
+.vipExclusive{
+  font-size:22px;
+  font-weight:900;
+  color:#ffd21f;
+  margin-bottom:5px;
+}
+
+.vipCrown{
+  font-size:30px;
+  margin-bottom:4px;
+}
+
+.vipUser{
+  font-size:14px;
+  font-weight:800;
+  margin:8px 0 14px;
+}
+
+.timerLabel{
+  color:#777;
+  font-size:13px;
+}
+
+.timer{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-top:6px;
+}
+
+
+/* =========================
+   VIP PAGE
+========================= */
+
+#vipPage,
+#adminPage,
+#adminLoginPage{
+  display:none;
+}
+
+#vipPage.show,
+#adminPage.show,
+#adminLoginPage.show{
+  display:block;
+}
+
+.vipLogo{
+  width:90px;
+  height:90px;
+  margin:5px auto 15px;
+  display:block;
+  object-fit:contain;
+  border-radius:18px;
+}
+
+.vipPageTitle{
+  text-align:center;
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.vipPageDesc{
+  text-align:center;
+  color:#777;
+  font-size:13px;
+  margin-bottom:18px;
+}
+
+
+/* =========================
+   PACKAGE
+========================= */
+
+.package{
+  border:1px solid #ddd;
+  border-radius:11px;
+  padding:13px;
+  margin-bottom:9px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+}
+
+.package.active{
+  border:2px solid #2196f3;
+  background:#eef7ff;
+}
+
+.package b{
+  font-size:14px;
+}
+
+.package span{
+  font-size:13px;
+  color:#555;
+}
+
+
+/* =========================
+   PAYMENT
+========================= */
+
+.payment{
+  border:1px solid #ddd;
+  border-radius:11px;
+  padding:13px;
+  margin-bottom:9px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+}
+
+.payment.active{
+  border:2px solid #2196f3;
+  background:#eef7ff;
+}
+
+.payment b{
+  font-size:14px;
+}
+
+.waBtn{
+  background:#20b85a;
+  margin-top:5px;
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+.adminBadge{
+  text-align:center;
+  font-size:13px;
+  color:#777;
+  margin-bottom:18px;
+}
+
+.adminAccount{
+  background:#f7f7f7;
+  border-radius:11px;
+  padding:13px;
+  margin-top:12px;
+  font-size:13px;
+  word-break:break-word;
+}
+
+.adminAccount b{
+  display:block;
+  margin-bottom:5px;
+}
+
+.generatedPassword{
+  font-family:monospace;
+  font-size:16px;
+  font-weight:900;
+}
+
+.accountStatus{
+  margin-top:8px;
+  font-weight:800;
+}
+
+.statusActive{
+  color:#20b85a;
+}
+
+.statusExpired{
+  color:#e53935;
+}
+
+.statusInactive{
+  color:#777;
+}
+
+.deleteBtn{
+  background:#e53935;
+  margin-top:10px;
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+.popupOverlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  align-items:center;
+  justify-content:center;
+  z-index:5000;
+  padding:20px;
+}
+
+.popupOverlay.show{
+  display:flex;
+}
+
+.popup{
+  width:100%;
+  max-width:300px;
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 10px 35px rgba(0,0,0,.2);
+}
+
+.popup h3{
+  margin:0 0 8px;
+}
+
+.popup p{
+  margin:0 0 15px;
+  color:#666;
+  font-size:14px;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  background:#172033;
+  color:#fff;
+  padding:11px 16px;
+  border-radius:10px;
+  font-size:13px;
+  z-index:6000;
+  transition:.25s;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SPLASH
+========================= -->
+
+<div id="splash">
+
+  <img src="Logo.png" class="logo">
+
+  <div class="splashTitle">
+    RwqwertyTWO
+  </div>
+
+  <div class="loadingBox">
+    <div id="progress"></div>
+  </div>
+
+  <div id="loadingText">
+    Initializing Core...
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MAIN PAGE
+========================= -->
+
+<div class="container" id="main">
+
+  <div class="header">
+    <h1 id="mainTitle">
+      ROOM WANGI
+    </h1>
+
+    <p id="mainSubtitle">
+      Dark Sistem Only
+    </p>
+  </div>
+
+
+  <!-- ACCOUNT -->
+
+  <div class="card">
+
+    <div class="title">
+      ACCOUNT INFO
+    </div>
+
+    <input
+      id="accountId"
+      inputmode="numeric"
+      maxlength="12"
+      placeholder="Masukkan ID Akun"
+    >
+
+    <input
+      id="serverId"
+      inputmode="numeric"
+      maxlength="6"
+      placeholder="Masukkan Zone / Server"
+    >
+
+    <button
+      id="injectButton"
+      class="btn"
+      onclick="injectAccount()"
+    >
+      INJEKSI
+    </button>
+
+  </div>
+
+
+  <!-- VIP -->
+
+  <div class="card vipCard">
+
+    <h2>
+      MEMBER VIP
+    </h2>
+
+    <p id="vipCardText">
+      Akses member VIP tersedia.
+    </p>
+
+    <button
+      class="btn vipBtn"
+      onclick="openVip()"
+    >
+      BELI VIP
+    </button>
+
+  </div>
+
+
+  <!-- LOGIN -->
+
+  <div class="card">
+
+    <div class="title">
+      LOGIN VIP
+    </div>
+
+    <input
+      id="vipUsername"
+      placeholder="Username VIP"
+      autocomplete="off"
+    >
+
+    <input
+      id="vipPassword"
+      type="password"
+      placeholder="Password VIP"
+    >
+
+    <button
+      class="btn"
+      onclick="loginVip()"
+    >
+      LOGIN VIP
+    </button>
+
+  </div>
+
+
+  <!-- VIP ACTIVE -->
+
+  <div
+    class="card vipActiveCard"
+    id="vipActiveCard"
+  >
+
+    <div class="vipCrown">
+      👑
+    </div>
+
+    <div class="vipExclusive">
+      VIP EKSKLUSIF
+    </div>
+
+    <div class="vipUser" id="activeVipUser">
+      -
+    </div>
+
+    <div class="timerLabel">
+      SISA WAKTU VIP
+    </div>
+
+    <div
+      class="timer"
+      id="vipTimer"
+    >
+      00:00:00
+    </div>
+
+  </div>
+
+
+  <!-- FEATURES -->
+
+  <div class="card">
+
+    <div class="title">
+      FEATURES
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Anti Lose Streak <span class="featurePercent">50%</span>
+      </span>
+
+      <div class="toggle" onclick="toggleFeature(this)"></div>
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Auto Win Streak <span class="featurePercent">50%</span>
+      </span>
+
+      <div class="toggle" onclick="toggleFeature(this)"></div>
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Bot Enemy <span class="featurePercent">50%</span>
+      </span>
+
+      <div class="toggle" onclick="toggleFeature(this)"></div>
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Fast Matchmaking <span class="featurePercent">100%</span>
+      </span>
+
+      <div class="toggle" onclick="toggleFeature(this)"></div>
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Rank Boost <span class="featurePercent">50%</span>
+      </span>
+
+      <div class="toggle" onclick="toggleFeature(this)"></div>
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Anti Banned <span class="featurePercent">100%</span>
+      </span>
+
+      <div class="toggle" onclick="toggleFeature(this)"></div>
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Maphack <span class="featurePercent">50%</span>
+      </span>
+
+      <div
+        class="toggle locked"
+        onclick="toggleFeature(this)"
+      ></div>
+    </div>
+
+    <div class="feature">
+      <span class="featureName">
+        Boost Damage <span class="featurePercent">50%</span>
+      </span>
+
+      <div
+        class="toggle locked"
+        onclick="toggleFeature(this)"
+      ></div>
+    </div>
+
+  </div>
+
+
+  <!-- ABOUT -->
+
+  <div class="card">
+
+    <div class="title">
+      ABOUT
+    </div>
+
+    <div class="aboutRow">
+      <span class="aboutLabel">DES</span>
+      <span>Ini adalah RW (Room Wangi) yang Aman 100%</span>
+    </div>
+
+    <div class="aboutRow">
+      <span class="aboutLabel">OWNER</span>
+      <span>@qwertyTWO</span>
+    </div>
+
+    <div class="aboutRow">
+      <span class="aboutLabel">STATUS</span>
+
+      <span class="status">
+        <span id="statusDot" class="dot"></span>
+        <span id="statusText">NOT INJECTED</span>
+      </span>
+    </div>
+
+    <div class="aboutRow">
+      <span class="aboutLabel">VERSION</span>
+      <span>1.1.0</span>
+    </div>
+
+    <div class="aboutRow">
+      <span class="aboutLabel">UPDATE</span>
+      <span>13/09/2026</span>
+    </div>
+
+    <div class="aboutRow">
+      <span class="aboutLabel">Rilis</span>
+      <span>13/09/2026</span>
+    </div>
+
+  </div>
+
+
+  <!-- ADMIN BUTTON -->
+
+  <div class="card">
+
+    <button
+      class="btn"
+      onclick="openAdmin()"
+    >
+      ADMIN PANEL
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     VIP SHOP
+========================= -->
+
+<div class="container" id="vipPage">
+
+  <div class="card">
+
+    <button
+      class="btn backBtn"
+      onclick="closeVip()"
+    >
+      ← KEMBALI
+    </button>
+
+    <img src="Logo.png" class="vipLogo">
+
+    <div class="vipPageTitle">
+      MEMBER VIP
+    </div>
+
+    <div class="vipPageDesc">
+      Pilih paket VIP
+    </div>
+
+    <div class="package" onclick="selectPackage(this,'13j',3000,13)">
+      <b>13j</b>
+      <span>Rp3.000</span>
+    </div>
+
+    <div class="package" onclick="selectPackage(this,'1h',10000,24)">
+      <b>1h</b>
+      <span>Rp10.000</span>
+    </div>
+
+    <div class="package" onclick="selectPackage(this,'7h',18000,168)">
+      <b>7h</b>
+      <span>Rp18.000</span>
+    </div>
+
+    <div class="package" onclick="selectPackage(this,'30h',35000,720)">
+      <b>30h</b>
+      <span>Rp35.000</span>
+    </div>
+
+    <div class="package" onclick="selectPackage(this,'Permanen',50000,0)">
+      <b>Permanen</b>
+      <span>Rp50.000</span>
+    </div>
+
+    <div
+      class="vipPageDesc"
+      style="margin-top:18px;margin-bottom:12px;"
+    >
+      Pilih metode pembayaran
+    </div>
+
+    <div class="payment" onclick="selectPayment(this,'QRIS')">
+      <b>QRIS</b>
+      <span>›</span>
+    </div>
+
+    <div class="payment" onclick="selectPayment(this,'DANA')">
+      <b>DANA</b>
+      <span>›</span>
+    </div>
+
+    <div class="payment" onclick="selectPayment(this,'GoPay')">
+      <b>GoPay</b>
+      <span>›</span>
+    </div>
+
+    <button
+      class="btn waBtn"
+      onclick="pesanWhatsApp()"
+    >
+      PESAN VIA WHATSAPP
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN LOGIN
+========================= -->
+
+<div class="container" id="adminLoginPage">
+
+  <div class="card">
+
+    <button
+      class="btn backBtn"
+      onclick="closeAdminLogin()"
+    >
+      ← KEMBALI
+    </button>
+
+    <img src="Logo.png" class="vipLogo">
+
+    <div class="vipPageTitle">
+      ADMIN LOGIN
+    </div>
+
+    <div class="adminBadge">
+      Masukkan akun administrator
+    </div>
+
+    <input
+      id="loginAdminUsername"
+      placeholder="Username Admin"
+      autocomplete="off"
+      maxlength="32"
+    >
+
+    <input
+      id="loginAdminPassword"
+      type="password"
+      placeholder="Password Admin"
+      autocomplete="off"
+      maxlength="64"
+    >
+
+    <button
+      class="btn"
+      onclick="loginAdmin()"
+    >
+      LOGIN ADMIN
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN PAGE
+========================= -->
+
+<div class="container" id="adminPage">
+
+  <div class="card">
+
+    <button
+      class="btn backBtn"
+      onclick="closeAdmin()"
+    >
+      ← KEMBALI
+    </button>
+
+    <div class="vipPageTitle">
+      ADMIN PANEL
+    </div>
+
+    <div class="adminBadge">
+      Kelola akun VIP
+    </div>
+
+
+    <!-- CREATE -->
+
+    <div class="title">
+      BUAT AKUN VIP
+    </div>
+
+    <input
+      id="adminUsername"
+      placeholder="Username baru"
+      autocomplete="off"
+      maxlength="32"
+    >
+
+    <input
+      id="adminPassword"
+      placeholder="Password baru"
+      autocomplete="off"
+      maxlength="64"
+    >
+
+    <div class="title" style="margin-top:8px;">
+      PILIH PAKET
+    </div>
+
+    <div
+      class="package"
+      onclick="selectAdminPackage(this,'13j',13)"
+    >
+      <b>13j</b>
+      <span>13 jam</span>
+    </div>
+
+    <div
+      class="package"
+      onclick="selectAdminPackage(this,'1h',24)"
+    >
+      <b>1h</b>
+      <span>24 jam</span>
+    </div>
+
+    <div
+      class="package"
+      onclick="selectAdminPackage(this,'7h',168)"
+    >
+      <b>7h</b>
+      <span>168 jam</span>
+    </div>
+
+    <div
+      class="package"
+      onclick="selectAdminPackage(this,'30h',720)"
+    >
+      <b>30h</b>
+      <span>720 jam</span>
+    </div>
+
+    <div
+      class="package"
+      onclick="selectAdminPackage(this,'Permanen',0)"
+    >
+      <b>Permanen</b>
+      <span>Tanpa batas</span>
+    </div>
+
+    <button
+      class="btn"
+      style="margin-top:8px;"
+      onclick="createVipAccount()"
+    >
+      BUAT AKUN VIP
+    </button>
+
+
+    <div
+      id="generatedAccount"
+      class="adminAccount"
+      style="display:none;"
+    >
+
+      <b>AKUN VIP BERHASIL DIBUAT</b>
+
+      <br>
+
+      Username:
+      <strong id="generatedUsername">-</strong>
+
+      <br>
+
+      Password:
+      <span
+        id="generatedPassword"
+        class="generatedPassword"
+      >
+        -
+      </span>
+
+      <br><br>
+
+      Paket:
+      <strong id="generatedPackage">-</strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- LIST -->
+
+  <div class="card">
+
+    <div class="title">
+      LIST AKUN VIP
+    </div>
+
+    <div id="vipAccountList">
+
+      <div class="adminBadge">
+        Belum ada akun VIP.
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     POPUP
+========================= -->
+
+<div
+  class="popupOverlay"
+  id="popupOverlay"
+>
+
+  <div class="popup">
+
+    <h3 id="popupTitle">
+      Berhasil
+    </h3>
+
+    <p id="popupMessage"></p>
+
+    <button
+      class="btn"
+      onclick="closePopup()"
+    >
+      OK
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<script>
+
+/* =========================
+   ADMIN CREDENTIAL
+========================= */
+
+const ADMIN_USERNAME = "qwertyTWO";
+const ADMIN_PASSWORD = "2011111";
+
+
+/* =========================
+   DATABASE
+========================= */
+
+const DB_NAME = "RoomWangiDB";
+const DB_VERSION = 2;
+const STORE_NAME = "vipAccounts";
+
+let db = null;
+
+
+/* =========================
+   OPEN DATABASE
+========================= */
+
+function openDatabase(){
+
+  return new Promise((resolve,reject)=>{
+
+    const request =
+      indexedDB.open(
+        DB_NAME,
+        DB_VERSION
+      );
+
+    request.onupgradeneeded = function(event){
+
+      const database =
+        event.target.result;
+
+      let store;
+
+      if(
+        !database.objectStoreNames
+          .contains(STORE_NAME)
+      ){
+
+        store =
+          database.createObjectStore(
+            STORE_NAME,
+            {
+              keyPath:"id",
+              autoIncrement:true
+            }
+          );
+
+      }else{
+
+        store =
+          event.target.transaction
+            .objectStore(STORE_NAME);
+
+      }
+
+      if(
+        !store.indexNames.contains("username")
+      ){
+
+        store.createIndex(
+          "username",
+          "username",
+          {unique:true}
+        );
+
+      }
+
+    };
+
+
+    request.onsuccess = function(event){
+
+      db =
+        event.target.result;
+
+      resolve(db);
+
+    };
+
+
+    request.onerror = function(){
+
+      reject(request.error);
+
+    };
+
+  });
+
+}
+
+
+/* =========================
+   DATABASE READY
+========================= */
+
+openDatabase().catch(()=>{
+
+  showToast(
+    "Database tidak tersedia"
+  );
+
+});
+
+
+/* =========================
+   DB ADD
+========================= */
+
+function addVipAccount(account){
+
+  return new Promise((resolve,reject)=>{
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
+
+    const request =
+      store.add(account);
+
+    request.onsuccess =
+      () => resolve(request.result);
+
+    request.onerror =
+      () => reject(request.error);
+
+  });
+
+}
+
+
+/* =========================
+   DB UPDATE
+========================= */
+
+function updateVipAccount(account){
+
+  return new Promise((resolve,reject)=>{
+
+    if(!db){
+
+      reject(
+        new Error(
+          "Database belum siap"
+        )
+      );
+
+      return;
+    }
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
+
+    const request =
+      store.put(account);
+
+    request.onsuccess =
+      () => resolve();
+
+    request.onerror =
+      () => reject(request.error);
+
+  });
+
+}
+
+
+/* =========================
+   DB GET ALL
+========================= */
+
+function getAllVipAccounts(){
+
+  return new Promise((resolve,reject)=>{
+
+    if(!db){
+
+      resolve([]);
+
+      return;
+    }
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
+
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
+
+    const request =
+      store.getAll();
+
+    request.onsuccess =
+      () => resolve(request.result);
+
+    request.onerror =
+      () => reject(request.error);
+
+  });
+
+}
+
+
+/* =========================
+   DB DELETE
+========================= */
+
+function deleteVipAccount(id){
+
+  return new Promise((resolve,reject)=>{
+
+    const transaction =
+      db.transaction(
+        STORE_NAME,
+        "readwrite"
+      );
+
+    const store =
+      transaction.objectStore(
+        STORE_NAME
+      );
+
+    const request =
+      store.delete(id);
+
+    request.onsuccess =
+      () => resolve();
+
+    request.onerror =
+      () => reject(request.error);
+
+  });
+
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+const loadingTexts = [
+
+  "Initializing Core...",
+  "Loading Modules...",
+  "Checking System...",
+  "Scanning Nodes...",
+  "Loading Features...",
+  "Preparing Interface...",
+  "Syncing Components...",
+  "Checking Configuration...",
+  "Starting Services...",
+  "Finalizing System...",
+  "System Ready..."
+
+];
+
+let progress = 0;
+let textIndex = 0;
+
+const progressEl =
+  document.getElementById("progress");
+
+const loadingText =
+  document.getElementById("loadingText");
+
+
+const loadingInterval =
+  setInterval(()=>{
+
+    progress +=
+      Math.floor(
+        Math.random()*3
+      )+1;
+
+    if(progress > 100){
+
+      progress = 100;
+
+    }
+
+    progressEl.style.width =
+      progress+"%";
+
+
+    if(
+      textIndex <
+      loadingTexts.length-1
+    ){
+
+      loadingText.textContent =
+        loadingTexts[textIndex];
+
+      textIndex++;
+
+    }
+
+
+    if(progress >= 100){
+
+      clearInterval(
+        loadingInterval
+      );
+
+      loadingText.textContent =
+        "System Ready...";
+
+
+      setTimeout(()=>{
+
+        document.getElementById(
+          "splash"
+        ).style.display="none";
+
+
+        document.getElementById(
+          "main"
+        ).style.display="block";
+
+
+        document.getElementById(
+          "main"
+        ).classList.add("show");
+
+
+        checkVipSession();
+
+      },1000);
+
+    }
+
+  },150);
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  toast.textContent =
+    message;
+
+  toast.classList.add(
+    "show"
+  );
+
+  setTimeout(()=>{
+
+    toast.classList.remove(
+      "show"
+    );
+
+  },1800);
+
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+function showPopup(
+  title,
+  message
+){
+
+  document.getElementById(
+    "popupTitle"
+  ).textContent =
+    title;
+
+  document.getElementById(
+    "popupMessage"
+  ).textContent =
+    message;
+
+  document.getElementById(
+    "popupOverlay"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+function closePopup(){
+
+  document.getElementById(
+    "popupOverlay"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =========================
+   INPUT SANITIZE
+========================= */
+
+function cleanText(
+  value,
+  maxLength
+){
+
+  return String(
+    value || ""
+  )
+  .replace(/[<>]/g,"")
+  .replace(
+    /[\u0000-\u001F]/g,
+    ""
+  )
+  .trim()
+  .slice(
+    0,
+    maxLength
+  );
+
+}
+
+
+/* =========================
+   INJEKSI
+========================= */
+
+function injectAccount(){
+
+  const id =
+    document.getElementById(
+      "accountId"
+    )
+    .value
+    .replace(/\D/g,"")
+    .slice(0,12);
+
+
+  const server =
+    document.getElementById(
+      "serverId"
+    )
+    .value
+    .replace(/\D/g,"")
+    .slice(0,6);
+
+
+  document.getElementById(
+    "accountId"
+  ).value=id;
+
+
+  document.getElementById(
+    "serverId"
+  ).value=server;
+
+
+  if(
+    !/^\d{8,12}$/.test(id)
+  ){
+
+    showToast(
+      "ID Akun tidak valid"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !/^\d{4,6}$/.test(server)
+  ){
+
+    showToast(
+      "Zone / Server tidak valid"
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "injectButton"
+    );
+
+
+  button.textContent =
+    "MEMPROSES...";
+
+  button.disabled =
+    true;
+
+
+  showToast(
+    "Memproses Account..."
+  );
+
+
+  setTimeout(()=>{
+
+    button.textContent =
+      "INJEKSI";
+
+    button.disabled =
+      false;
+
+
+    document.getElementById(
+      "statusText"
+    ).textContent =
+      "INJECTED";
+
+
+    document.getElementById(
+      "statusDot"
+    ).classList.add(
+      "green"
+    );
+
+
+    showPopup(
+      "Berhasil",
+      "Account berhasil diinjeksi."
+    );
+
+  },1200);
+
+}
+
+
+/* =========================
+   FEATURES
+========================= */
+
+function toggleFeature(element){
+
+  if(
+    element.classList.contains(
+      "locked"
+    ) &&
+    !document.body.classList.contains(
+      "vipMode"
+    )
+  ){
+
+    showToast(
+      "Fitur khusus VIP"
+    );
+
+    return;
+
+  }
+
+
+  element.classList.toggle(
+    "active"
+  );
+
+
+  if(
+    element.classList.contains(
+      "active"
+    )
+  ){
+
+    showToast(
+      "Fitur diaktifkan"
+    );
+
+  }else{
+
+    showToast(
+      "Fitur dimatikan"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   VIP SHOP
+========================= */
+
+function openVip(){
+
+  hideAllPages();
+
+
+  const page =
+    document.getElementById(
+      "vipPage"
+    );
+
+
+  page.style.display =
+    "block";
+
+
+  page.classList.add(
+    "show"
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+function closeVip(){
+
+  hideAllPages();
+
+
+  const page =
+    document.getElementById(
+      "main"
+    );
+
+
+  page.style.display =
+    "block";
+
+
+  page.classList.add(
+    "show"
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* =========================
+   PACKAGE
+========================= */
+
+let selectedPackage="";
+let selectedPrice=0;
+let selectedHours=0;
+
+
+function selectPackage(
+  element,
+  packageName,
+  price,
+  hours
+){
+
+  document
+    .querySelectorAll(
+      "#vipPage .package"
+    )
+    .forEach(item=>{
+
+      item.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  element.classList.add(
+    "active"
+  );
+
+
+  selectedPackage =
+    packageName;
+
+  selectedPrice =
+    price;
+
+  selectedHours =
+    hours;
+
+
+  showToast(
+    packageName+
+    " dipilih"
+  );
+
+}
+
+
+/* =========================
+   PAYMENT
+========================= */
+
+let selectedPayment="";
+
+
+function selectPayment(
+  element,
+  method
+){
+
+  document
+    .querySelectorAll(
+      "#vipPage .payment"
+    )
+    .forEach(item=>{
+
+      item.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  element.classList.add(
+    "active"
+  );
+
+
+  selectedPayment =
+    method;
+
+
+  showToast(
+    method+
+    " dipilih"
+  );
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function pesanWhatsApp(){
+
+  if(!selectedPackage){
+
+    showToast(
+      "Pilih paket VIP dulu"
+    );
+
+    return;
+
+  }
+
+
+  if(!selectedPayment){
+
+    showToast(
+      "Pilih metode pembayaran dulu"
+    );
+
+    return;
+
+  }
+
+
+  const phone =
+    "6285122438820";
+
+
+  const message =
+    "Halo Admin, saya ingin pesan VIP Room Wangi.\n\n"+
+    "Paket: "+
+    selectedPackage+
+    "\nHarga: Rp"+
+    selectedPrice.toLocaleString(
+      "id-ID"
+    )+
+    "\nMetode pembayaran: "+
+    selectedPayment;
+
+
+  const url =
+    "https://wa.me/"+
+    phone+
+    "?text="+
+    encodeURIComponent(
+      message
+    );
+
+
+  window.location.href =
+    url;
+
+}
+
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+function openAdmin(){
+
+  hideAllPages();
+
+
+  const logged =
+    sessionStorage.getItem(
+      "roomWangiAdmin"
+    );
+
+
+  if(
+    logged === "true"
+  ){
+
+    openAdminPanel();
+
+    return;
+
+  }
+
+
+  const page =
+    document.getElementById(
+      "adminLoginPage"
+    );
+
+
+  page.style.display =
+    "block";
+
+
+  page.classList.add(
+    "show"
+  );
+
+
+  document.getElementById(
+    "loginAdminUsername"
+  ).value="";
+
+
+  document.getElementById(
+    "loginAdminPassword"
+  ).value="";
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* =========================
+   ADMIN LOGIN CHECK
+========================= */
+
+function loginAdmin(){
+
+  const username =
+    cleanText(
+      document.getElementById(
+        "loginAdminUsername"
+      ).value,
+      32
+    );
+
+
+  const password =
+    String(
+      document.getElementById(
+        "loginAdminPassword"
+      ).value || ""
+    ).trim();
+
+
+  if(
+    username ===
+    ADMIN_USERNAME &&
+    password ===
+    ADMIN_PASSWORD
+  ){
+
+    sessionStorage.setItem(
+      "roomWangiAdmin",
+      "true"
+    );
+
+
+    showToast(
+      "Login admin berhasil"
+    );
+
+
+    setTimeout(()=>{
+
+      openAdminPanel();
+
+    },300);
+
+
+    return;
+
+  }
+
+
+  showToast(
+    "Username atau password admin salah"
+  );
+
+}
+
+
+/* =========================
+   ADMIN PANEL
+========================= */
+
+function openAdminPanel(){
+
+  hideAllPages();
+
+
+  const page =
+    document.getElementById(
+      "adminPage"
+    );
+
+
+  page.style.display =
+    "block";
+
+
+  page.classList.add(
+    "show"
+  );
+
+
+  loadVipList();
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* =========================
+   ADMIN LOGOUT
+========================= */
+
+function logoutAdmin(){
+
+  sessionStorage.removeItem(
+    "roomWangiAdmin"
+  );
+
+
+  showToast(
+    "Admin logout"
+  );
+
+
+  closeAdmin();
+
+}
+
+
+/* =========================
+   CLOSE ADMIN
+========================= */
+
+function closeAdmin(){
+
+  hideAllPages();
+
+
+  const page =
+    document.getElementById(
+      "main"
+    );
+
+
+  page.style.display =
+    "block";
+
+
+  page.classList.add(
+    "show"
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+function closeAdminLogin(){
+
+  hideAllPages();
+
+
+  const page =
+    document.getElementById(
+      "main"
+    );
+
+
+  page.style.display =
+    "block";
+
+
+  page.classList.add(
+    "show"
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* =========================
+   ADMIN PACKAGE
+========================= */
+
+let adminPackage="";
+let adminHours=0;
+
+
+function selectAdminPackage(
+  element,
+  packageName,
+  hours
+){
+
+  document
+    .querySelectorAll(
+      "#adminPage .package"
+    )
+    .forEach(item=>{
+
+      item.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  element.classList.add(
+    "active"
+  );
+
+
+  adminPackage =
+    packageName;
+
+  adminHours =
+    hours;
+
+
+  showToast(
+    packageName+
+    " dipilih"
+  );
+
+}
+
+
+/* =========================
+   CREATE VIP ACCOUNT
+========================= */
+
+async function createVipAccount(){
+
+  if(!db){
+
+    showToast(
+      "Database belum siap"
+    );
+
+    return;
+
+  }
+
+
+  const username =
+    cleanText(
+      document.getElementById(
+        "adminUsername"
+      ).value,
+      32
+    );
+
+
+  const password =
+    String(
+      document.getElementById(
+        "adminPassword"
+      ).value || ""
+    )
+    .trim()
+    .slice(0,64);
+
+
+  if(!username){
+
+    showToast(
+      "Masukkan username"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    username.length < 3
+  ){
+
+    showToast(
+      "Username minimal 3 karakter"
+    );
+
+    return;
+
+  }
+
+
+  if(!password){
+
+    showToast(
+      "Masukkan password"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    password.length < 4
+  ){
+
+    showToast(
+      "Password minimal 4 karakter"
+    );
+
+    return;
+
+  }
+
+
+  if(!adminPackage){
+
+    showToast(
+      "Pilih paket VIP"
+    );
+
+    return;
+
+  }
+
+
+  const accounts =
+    await getAllVipAccounts();
+
+
+  const exists =
+    accounts.some(
+      account =>
+        account.username
+          .toLowerCase()
+        ===
+        username.toLowerCase()
+    );
+
+
+  if(exists){
+
+    showToast(
+      "Username VIP sudah digunakan"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    PENTING:
+    expires masih 0.
+    Timer BELUM dimulai.
+  */
+
+  const account = {
+
+    username:
+      username,
+
+    password:
+      password,
+
+    package:
+      adminPackage,
+
+    hours:
+      adminHours,
+
+    createdAt:
+      Date.now(),
+
+    activatedAt:
+      null,
+
+    expires:
+      0,
+
+    activeSessionId:
+      null
+
+  };
+
+
+  try{
+
+    await addVipAccount(
+      account
+    );
+
+
+    document.getElementById(
+      "generatedAccount"
+    ).style.display =
+      "block";
+
+
+    document.getElementById(
+      "generatedUsername"
+    ).textContent =
+      username;
+
+
+    document.getElementById(
+      "generatedPassword"
+    ).textContent =
+      password;
+
+
+    document.getElementById(
+      "generatedPackage"
+    ).textContent =
+      adminPackage;
+
+
+    document.getElementById(
+      "adminUsername"
+    ).value="";
+
+
+    document.getElementById(
+      "adminPassword"
+    ).value="";
+
+
+    adminPackage="";
+    adminHours=0;
+
+
+    document
+      .querySelectorAll(
+        "#adminPage .package"
+      )
+      .forEach(item=>{
+
+        item.classList.remove(
+          "active"
+        );
+
+      });
+
+
+    await loadVipList();
+
+
+    showPopup(
+      "Akun VIP Dibuat",
+      "Akun dibuat. Timer VIP masih NONAKTIF sampai akun pertama kali digunakan."
+    );
+
+
+  }catch(error){
+
+    console.log(error);
+
+    showToast(
+      "Gagal membuat akun VIP"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   GENERATE SESSION ID
+========================= */
+
+function generateSessionId(){
+
+  return (
+    Date.now().toString(36)+
+    "-" +
+    Math.random()
+      .toString(36)
+      .slice(2)+
+    "-" +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+
+}
+
+
+/* =========================
+   LOGIN VIP
+========================= */
+
+async function loginVip(){
+
+  const username =
+    cleanText(
+      document.getElementById(
+        "vipUsername"
+      ).value,
+      32
+    );
+
+
+  const password =
+    String(
+      document.getElementById(
+        "vipPassword"
+      ).value || ""
+    ).trim();
+
+
+  if(
+    !username ||
+    !password
+  ){
+
+    showToast(
+      "Username dan password wajib diisi"
+    );
+
+    return;
+
+  }
+
+
+  const accounts =
+    await getAllVipAccounts();
+
+
+  const account =
+    accounts.find(
+      item =>
+        item.username ===
+        username
+    );
+
+
+  if(!account){
+
+    showToast(
+      "Akun VIP tidak ditemukan"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    password !==
+    account.password
+  ){
+
+    showToast(
+      "Username atau password salah"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    CEK SESI AKUN INI
+  */
+
+  const currentSession =
+    localStorage.getItem(
+      "vipSessionId"
+    );
+
+
+  if(
+    account.activeSessionId &&
+    account.activeSessionId !==
+    currentSession
+  ){
+
+    showToast(
+      "Akun VIP sedang digunakan"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    CEK EXPIRED
+  */
+
+  if(
+    account.package !== "Permanen" &&
+    account.activatedAt &&
+    account.expires <= Date.now()
+  ){
+
+    await deleteVipAccount(
+      account.id
+    );
+
+
+    localStorage.removeItem(
+      "vipLoggedId"
+    );
+
+    localStorage.removeItem(
+      "vipSessionId"
+    );
+
+
+    showToast(
+      "Akun VIP sudah expired"
+    );
+
+
+    await loadVipList();
+
+    return;
+
+  }
+
+
+  /*
+    AKUN BELUM PERNAH AKTIF
+    TIMER DIMULAI SEKARANG
+  */
+
+  if(
+    !account.activatedAt
+  ){
+
+    account.activatedAt =
+      Date.now();
+
+
+    if(
+      account.package ===
+      "Permanen"
+    ){
+
+      account.expires =
+        0;
+
+    }else{
+
+      account.expires =
+        account.activatedAt +
+        (
+          account.hours *
+          60 *
+          60 *
+          1000
+        );
+
+    }
+
+  }
+
+
+  /*
+    BUAT SESSION BARU
+  */
+
+  const sessionId =
+    currentSession ||
+    generateSessionId();
+
+
+  account.activeSessionId =
+    sessionId;
+
+
+  await updateVipAccount(
+    account
+  );
+
+
+  localStorage.setItem(
+    "vipLoggedId",
+    String(account.id)
+  );
+
+
+  localStorage.setItem(
+    "vipSessionId",
+    sessionId
+  );
+
+
+  activateVip(
+    account
+  );
+
+
+  await loadVipList();
+
+
+  showToast(
+    "VIP berhasil diaktifkan"
+  );
+
+}
+
+
+/* =========================
+   ACTIVATE VIP
+========================= */
+
+function activateVip(account){
+
+  document.body.classList.add(
+    "vipMode"
+  );
+
+
+  document.getElementById(
+    "mainTitle"
+  ).textContent =
+    "VIP EKSKLUSIF";
+
+
+  document.getElementById(
+    "mainSubtitle"
+  ).textContent =
+    "Premium Member Access";
+
+
+  document.getElementById(
+    "vipCardText"
+  ).textContent =
+    "VIP aktif • Semua fitur tersedia";
+
+
+  document.getElementById(
+    "activeVipUser"
+  ).textContent =
+    "VIP: "+
+    account.username;
+
+
+  document.getElementById(
+    "vipActiveCard"
+  ).style.display =
+    "block";
+
+
+  setVipFeatures();
+
+
+  updateVipTimer(
+    account
+  );
+
+}
+
+
+/* =========================
+   VIP FEATURES
+========================= */
+
+function setVipFeatures(){
+
+  const values = [
+
+    "50%",
+    "50%",
+    "50%",
+    "100%",
+    "50%",
+    "100%",
+    "50%",
+    "50%"
+
+  ];
+
+
+  document
+    .querySelectorAll(
+      ".featurePercent"
+    )
+    .forEach(
+      (percent,index)=>{
+
+        percent.textContent =
+          values[index] ||
+          "50%";
+
+      }
+    );
+
+}
+
+
+/* =========================
+   VIP TIMER
+========================= */
+
+let timerInterval=null;
+
+
+function updateVipTimer(
+  account
+){
+
+  clearInterval(
+    timerInterval
+  );
+
+
+  const timer =
+    document.getElementById(
+      "vipTimer"
+    );
+
+
+  if(
+    account.package ===
+    "Permanen"
+  ){
+
+    timer.textContent =
+      "PERMANEN";
+
+    return;
+
+  }
+
+
+  function update(){
+
+    const remaining =
+      account.expires -
+      Date.now();
+
+
+    if(
+      remaining <= 0
+    ){
+
+      clearInterval(
+        timerInterval
+      );
+
+
+      timer.textContent =
+        "00:00:00";
+
+
+      expireVipAccount(
+        account
+      );
+
+
+      return;
+
+    }
+
+
+    const totalSeconds =
+      Math.floor(
+        remaining /
+        1000
+      );
+
+
+    const days =
+      Math.floor(
+        totalSeconds /
+        86400
+      );
+
+
+    const hours =
+      Math.floor(
+        (
+          totalSeconds %
+          86400
+        ) /
+        3600
+      );
+
+
+    const minutes =
+      Math.floor(
+        (
+          totalSeconds %
+          3600
+        ) /
+        60
+      );
+
+
+    const seconds =
+      totalSeconds %
+      60;
+
+
+    if(
+      days > 0
+    ){
+
+      timer.textContent =
+        days+
+        "h "+
+        String(hours)
+          .padStart(2,"0")+
+        ":"+
+        String(minutes)
+          .padStart(2,"0")+
+        ":"+
+        String(seconds)
+          .padStart(2,"0");
+
+    }else{
+
+      timer.textContent =
+        String(hours)
+          .padStart(2,"0")+
+        ":"+
+        String(minutes)
+          .padStart(2,"0")+
+        ":"+
+        String(seconds)
+          .padStart(2,"0");
+
+    }
+
+  }
+
+
+  update();
+
+
+  timerInterval =
+    setInterval(
+      update,
+      1000
+    );
+
+}
+
+
+/* =========================
+   EXPIRE VIP
+========================= */
+
+async function expireVipAccount(
+  account
+){
+
+  clearInterval(
+    timerInterval
+  );
+
+
+  try{
+
+    account.activeSessionId =
+      null;
+
+
+    await updateVipAccount(
+      account
+    );
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+
+  localStorage.removeItem(
+    "vipLoggedId"
+  );
+
+
+  localStorage.removeItem(
+    "vipSessionId"
+  );
+
+
+  deactivateVip();
+
+
+  showToast(
+    "Masa VIP telah habis"
+  );
+
+
+  loadVipList();
+
+}
+
+
+/* =========================
+   DEACTIVATE VIP
+========================= */
+
+function deactivateVip(){
+
+  clearInterval(
+    timerInterval
+  );
+
+
+  document.body.classList.remove(
+    "vipMode"
+  );
+
+
+  document.getElementById(
+    "mainTitle"
+  ).textContent =
+    "ROOM WANGI";
+
+
+  document.getElementById(
+    "mainSubtitle"
+  ).textContent =
+    "Dark Sistem Only";
+
+
+  document.getElementById(
+    "vipCardText"
+  ).textContent =
+    "Akses member VIP tersedia.";
+
+
+  document.getElementById(
+    "vipActiveCard"
+  ).style.display =
+    "none";
+
+
+  const normalValues=[
+
+    "50%",
+    "50%",
+    "50%",
+    "100%",
+    "50%",
+    "100%",
+    "50%",
+    "50%"
+
+  ];
+
+
+  document
+    .querySelectorAll(
+      ".featurePercent"
+    )
+    .forEach(
+      (percent,index)=>{
+
+        percent.textContent =
+          normalValues[index] ||
+          "50%";
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".toggle"
+    )
+    .forEach(
+      toggle=>{
+
+        toggle.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================
+   CHECK VIP SESSION
+========================= */
+
+async function checkVipSession(){
+
+  try{
+
+    const accounts =
+      await getAllVipAccounts();
+
+
+    const loggedId =
+      Number(
+        localStorage.getItem(
+          "vipLoggedId"
+        )
+      );
+
+
+    const sessionId =
+      localStorage.getItem(
+        "vipSessionId"
+      );
+
+
+    if(
+      !loggedId ||
+      !sessionId
+    ){
+
+      return;
+
+    }
+
+
+    const account =
+      accounts.find(
+        item =>
+          item.id ===
+          loggedId
+      );
+
+
+    if(!account){
+
+      localStorage.removeItem(
+        "vipLoggedId"
+      );
+
+      localStorage.removeItem(
+        "vipSessionId"
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Pastikan session masih milik
+      browser ini.
+    */
+
+    if(
+      account.activeSessionId !==
+      sessionId
+    ){
+
+      localStorage.removeItem(
+        "vipLoggedId"
+      );
+
+      localStorage.removeItem(
+        "vipSessionId"
+      );
+
+      deactivateVip();
+
+      showToast(
+        "Sesi VIP sudah digunakan"
+      );
+
+      return;
+
+    }
+
+
+    if(
+      account.package !==
+      "Permanen" &&
+      account.activatedAt &&
+      account.expires <=
+      Date.now()
+    ){
+
+      await expireVipAccount(
+        account
+      );
+
+      return;
+
+    }
+
+
+    activateVip(
+      account
+    );
+
+
+  }catch(error){
+
+    console.log(
+      "Session check error",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================
+   VIP LIST
+========================= */
+
+async function loadVipList(){
+
+  const list =
+    document.getElementById(
+      "vipAccountList"
+    );
+
+
+  if(!list){
+
+    return;
+
+  }
+
+
+  const accounts =
+    await getAllVipAccounts();
+
+
+  if(
+    !accounts.length
+  ){
+
+    list.innerHTML =
+      '<div class="adminBadge">Belum ada akun VIP.</div>';
+
+    return;
+
+  }
+
+
+  list.innerHTML="";
+
+
+  accounts
+    .sort(
+      (a,b)=>
+        b.createdAt -
+        a.createdAt
+    )
+    .forEach(
+      account=>{
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "adminAccount";
+
+
+        const username =
+          document.createElement(
+            "b"
+          );
+
+
+        username.textContent =
+          "👤 "+
+          account.username;
+
+
+        const packageText =
+          document.createElement(
+            "div"
+          );
+
+
+        packageText.textContent =
+          "Paket: "+
+          account.package;
+
+
+        const passwordText =
+          document.createElement(
+            "div"
+          );
+
+
+        passwordText.textContent =
+          "Password: "+
+          account.password;
+
+
+        const status =
+          document.createElement(
+            "div"
+          );
+
+
+        status.className =
+          "accountStatus";
+
+
+        /*
+          STATUS:
+          NONAKTIF = belum pernah dipakai
+          AKTIF = sedang aktif
+          EXPIRED = masa habis
+        */
+
+        if(
+          !account.activatedAt
+        ){
+
+          status.classList.add(
+            "statusInactive"
+          );
+
+
+          status.textContent =
+            "● NONAKTIF";
+
+
+        }else if(
+          account.package ===
+          "Permanen"
+        ){
+
+          if(
+            account.activeSessionId
+          ){
+
+            status.classList.add(
+              "statusActive"
+            );
+
+            status.textContent =
+              "● AKTIF • PERMANEN";
+
+          }else{
+
+            status.classList.add(
+              "statusInactive"
+            );
+
+            status.textContent =
+              "● NONAKTIF";
+
+          }
+
+
+        }else if(
+          account.expires >
+          Date.now()
+        ){
+
+          if(
+            account.activeSessionId
+          ){
+
+            status.classList.add(
+              "statusActive"
+            );
+
+            status.textContent =
+              "● AKTIF • "+
+              formatRemaining(
+                account.expires -
+                Date.now()
+              );
+
+          }else{
+
+            status.classList.add(
+              "statusInactive"
+            );
+
+            status.textContent =
+              "● NONAKTIF";
+
+          }
+
+
+        }else{
+
+          status.classList.add(
+            "statusExpired"
+          );
+
+          status.textContent =
+            "● EXPIRED";
+
+        }
+
+
+        const deleteButton =
+          document.createElement(
+            "button"
+          );
+
+
+        deleteButton.className =
+          "btn deleteBtn";
+
+
+        deleteButton.textContent =
+          "HAPUS AKUN";
+
+
+        deleteButton.onclick =
+          async function(){
+
+            if(
+              !confirm(
+                "Hapus akun VIP "+
+                account.username+
+                "?"
+              )
+            ){
+
+              return;
+
+            }
+
+
+            await deleteVipAccount(
+              account.id
+            );
+
+
+            const loggedId =
+              Number(
+                localStorage.getItem(
+                  "vipLoggedId"
+                )
+              );
+
+
+            if(
+              loggedId ===
+              account.id
+            ){
+
+              localStorage.removeItem(
+                "vipLoggedId"
+              );
+
+              localStorage.removeItem(
+                "vipSessionId"
+              );
+
+              deactivateVip();
+
+            }
+
+
+            loadVipList();
+
+
+            showToast(
+              "Akun VIP dihapus"
+            );
+
+          };
+
+
+        card.appendChild(
+          username
+        );
+
+
+        card.appendChild(
+          packageText
+        );
+
+
+        card.appendChild(
+          passwordText
+        );
+
+
+        card.appendChild(
+          status
+        );
+
+
+        card.appendChild(
+          deleteButton
+        );
+
+
+        list.appendChild(
+          card
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================
+   FORMAT REMAINING
+========================= */
+
+function formatRemaining(
+  milliseconds
+){
+
+  const totalSeconds =
+    Math.max(
+      0,
+      Math.floor(
+        milliseconds /
+        1000
+      )
+    );
+
+
+  const days =
+    Math.floor(
+      totalSeconds /
+      86400
+    );
+
+
+  const hours =
+    Math.floor(
+      (
+        totalSeconds %
+        86400
+      ) /
+      3600
+    );
+
+
+  const minutes =
+    Math.floor(
+      (
+        totalSeconds %
+        3600
+      ) /
+      60
+    );
+
+
+  if(
+    days > 0
+  ){
+
+    return (
+      days+
+      "h "+
+      String(hours)
+        .padStart(2,"0")+
+      ":"+
+      String(minutes)
+        .padStart(2,"0")
+    );
+
+  }
+
+
+  return (
+    String(hours)
+      .padStart(2,"0")+
+    ":"+
+    String(minutes)
+      .padStart(2,"0")
+  );
+
+}
+
+
+/* =========================
+   PAGE CONTROL
+========================= */
+
+function hideAllPages(){
+
+  [
+
+    "main",
+    "vipPage",
+    "adminLoginPage",
+    "adminPage"
+
+  ]
+  .forEach(id=>{
+
+    const element =
+      document.getElementById(
+        id
+      );
+
+
+    element.classList.remove(
+      "show"
+    );
+
+
+    element.style.display =
+      "none";
+
+  });
+
+}
+
+
+/* =========================
+   ADMIN PROTECTION
+========================= */
+
+window.addEventListener(
+  "load",
+  ()=>{
+
+    /*
+      Session admin tetap aktif
+      selama session browser masih ada.
+    */
+
+  }
+);
+
+</script>
+
+</body>
+</html>
